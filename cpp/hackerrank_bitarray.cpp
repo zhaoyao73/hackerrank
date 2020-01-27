@@ -26,21 +26,21 @@ clear(unsigned long *pbsets, int bit) {
 }
 inline int
 test(unsigned long v, int bit) {
-    return (v & (1 << bit)) != 0;
+    return (v & (1UL << bit)) != 0;
 }
 int main() {
     unsigned int N, S, P, Q;
     //unordered_set<unsigned long long> sets;
     unsigned long long prev, cur;
-    unsigned long pow231 = 1U<<31;//(unsigned long long)pow(2,31);
+    constexpr unsigned long pow231 = 1U<<31;
     unsigned long how_many = 1;
     unsigned long v;
     int off, bit;
-    unsigned long *pbsets = (unsigned long*)malloc(2147483648/8+8);
+    unsigned long *pbsets = (unsigned long*)malloc(pow231/8);
     if (!pbsets) {
         exit(1);
     }
-    memset(pbsets, 0 , 2147483648/8+8);
+    memset(pbsets, 0 , pow231/8);
     cin >> N >> S >> P >> Q;
 
     get_off(pbsets, S, &off, &bit);
@@ -49,15 +49,13 @@ int main() {
     prev = S;
     for( unsigned int i = 1; i <= N-1; ++i) {
         cur = (prev *P+Q);
-        if (cur >= pow231) 
-            cur = cur % pow231;
+        cur = cur % pow231;
         v = get_off(pbsets, cur, &off, &bit);
         if (!test(v, bit)) {
             how_many++;
             set(pbsets+ off, bit);
         }
         prev = cur;
-        //cerr << cur << " " ;
     }
 
     cout << how_many << endl;

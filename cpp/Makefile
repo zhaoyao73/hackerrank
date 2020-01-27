@@ -1,5 +1,27 @@
-all:
-	g++ -o run -O3 hackerrank_bitarray.cpp
-	g++ -o run2  hackerrank_bitarray2.cpp
-	g++ -o run3  hackerrank_bitarray3.cpp
-	g++ -o run4  hackerrank_bitarray4.cpp
+CC=gcc
+CXX=g++
+RM=rm -f
+CXXFLAGS=-g -std=c++11
+CFLAGS= -g -O2
+
+CXXSRCS=$(wildcard *.cpp)
+CSRCS=$(wildcard *.c)
+COBJS=$(subst .c,.o,$(CSRCS))
+CXXOBJS=$(subst .cpp,.o,$(CXXSRCS))
+CXXBINS=$(subst .cpp,,$(CXXSRCS))
+COBJS=$(subst .c,.o,$(CSRCS))
+CBINS=$(subst .c,,$(CSRCS))
+CDSYMS=$(subst .c,.dSYM,$(CSRCS))
+CXXDSYMS=$(subst .cpp,.dSYM,$(CXXSRCS))
+
+SRCS = $(CXXSRCS) $(CSRCS)
+OBJS = $(CXXOBJS) $(COBJS)
+BINS = $(CXXBINS) $(CBINS)
+
+all: $(BINS)
+
+clean:
+	@$(RM) $(OBJS) $(BINS)
+
+distclean: clean
+	@$(RM) -r $(CXXDSYMS) $(CDSYMS)
